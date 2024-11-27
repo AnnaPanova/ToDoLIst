@@ -6,8 +6,12 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct ContentView: View {
+    
+    @StateObject var viewModel = CoreDataViewMOdel()
+    
     var body: some View {
         NavigationView {
             VStack {
