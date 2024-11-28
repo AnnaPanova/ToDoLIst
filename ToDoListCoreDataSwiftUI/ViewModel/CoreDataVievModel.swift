@@ -11,6 +11,8 @@ import CoreData
 class CoreDataViewMOdel: ObservableObject {
     let conteiner : NSPersistentContainer
     
+    @Published var fetchedEntities: [TaskEntity] = []
+    
     init() {
         conteiner = NSPersistentContainer(name: "TasksContainer")
         
@@ -23,9 +25,46 @@ class CoreDataViewMOdel: ObservableObject {
                 }
             })
         
-        
+        fetchTaskEntities()
     }
     
     
+    // func for fetching data Entities
     
+    func fetchTaskEntities() {
+        
+        let request = NSFetchRequest<TaskEntity>(entityName: "TaskEntity")
+        
+        do {
+          fetchedEntities = try conteiner.viewContext.fetch(request)
+        } catch let error {
+                print("Error during fetching data from CoreData: \(error.localizedDescription)")
+        }
+    }
+    
+    // func for saving data
+    
+    func saveChanges() {
+        
+        // 1. trying save changes
+        do {
+            try conteiner.viewContext.save()
+        } catch let error {
+            print("Error during saving data to CoreData: \(error)")
+        }
+        
+        // 2. fetching updated data
+        fetchTaskEntities()
+    }
+    
+    // func for adding new Entity
+    
+    func addNewTask(text: String, tag: String) {
+        let newEntity = TaskEntity(context: conteiner.viewContext)
+        newEntity.textOfTask = text
+        newEntity.colorTag = tag
+        
+    saveChanges()
+        
+    }
 }
