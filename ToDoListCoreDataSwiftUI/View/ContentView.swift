@@ -11,13 +11,15 @@ import CoreData
 struct ContentView: View {
     
     @StateObject var viewModel = CoreDataViewMOdel()
-    
-    
+
     var body: some View {
         NavigationView {
             VStack {
                 Button("Add the task") {
+                   
                     // saving new entity
+                    viewModel.addNewTask(text: "newTask", tag: "red")
+                   
                 }
                 .frame(minWidth: 150, maxWidth: 60)
                 .background(Color.gray.opacity(0.3).cornerRadius(10))
@@ -26,8 +28,12 @@ struct ContentView: View {
                 .padding(.leading, 200)
                
                 List {
-                    // add ForEach with list of Entities
+                    ForEach(viewModel.fetchedEntities) { entity in
+                        Text(entity.textOfTask ?? "No Tasks")
+                            .foregroundColor(.colorFromTag(tag: entity.colorTag ?? "black"))
+                    }
                 }
+                .listStyle(.plain)
                 
                 Spacer()
             }
