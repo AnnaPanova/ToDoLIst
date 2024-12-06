@@ -29,10 +29,16 @@ struct ContentView: View {
                
                 List {
                     ForEach(viewModel.fetchedEntities) { entity in
-                        Text(entity.textOfTask ?? "No Tasks")
-                            .foregroundColor(.colorFromTag(tag: entity.colorTag ?? "black"))
-                    }
+                        NavigationLink(destination: TaskView( passedTask: entity)) {
+                            Text(entity.textOfTask ?? "No Tasks")
+                                .foregroundColor(.colorFromTag(tag: entity.colorTag ?? "black"))
+                        }
+                       
+                        }
+                    
                 }
+                .onAppear(perform: viewModel.fetchTaskEntities)
+                
                 .listStyle(.plain)
                 
                 Spacer()

@@ -12,24 +12,42 @@ import CoreData
 struct TaskView: View {
     
     @StateObject var viewModel = CoreDataViewMOdel()
-    @State var taskText: String = ""
     @State var textColorVasChanged: String = "black"
     
+    @State var selectedTask: TaskEntity?
+    
+    @State var taskText: String
+    @State var taskColor: String
+        
+    init(passedTask: TaskEntity?) {
+        if let task = passedTask {
+            _selectedTask = State(initialValue: task)
+            _taskText = State(initialValue: task.textOfTask ?? "No text")
+            _taskColor = State(initialValue: task.colorTag ?? "black")
+        } else {
+            _taskText = State(initialValue: "")
+            _taskColor = State(initialValue: "")
+        }
+    }
+
+  
     
     var body: some View {
         NavigationView {
             VStack{
+               
                 TextEditor(text: $taskText)
                     .frame(maxWidth: .infinity)
                     .background(Color.yellow.opacity(0.8))
                     .foregroundColor(Color.colorFromTag(tag: textColorVasChanged))
                     .padding()
+                
                 HStack{
                     Button("A") {
                         //action for changing colorTag to Black
                         // change foreground color into a TextEditor
                     textColorVasChanged = "black"
-                       
+                        print("There is sended entity: \(selectedTask?.textOfTask)")
                         // change tagForColor inside of entity
                         
                     }
@@ -75,6 +93,7 @@ struct TaskView: View {
                         newTask.colorTag = textColorVasChanged
                         print("Trying to save")
                         viewModel.saveChanges()
+                        viewModel.fetchTaskEntities()
                         print(viewModel.$fetchedEntities.first())
                         taskText = newTask.textOfTask ?? "bla-bla"
                     }
@@ -91,9 +110,10 @@ struct TaskView: View {
     }
 }
 
-
+/*
 struct TaskView_Previews: PreviewProvider {
     static var previews: some View {
         TaskView()
     }
 }
+*/
