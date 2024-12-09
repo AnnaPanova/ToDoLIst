@@ -67,4 +67,12 @@ class CoreDataViewMOdel: ObservableObject {
     saveChanges()
         
     }
+    
+    // func for deleting Entity
+    func deleteTask(indexSet: IndexSet) {
+        guard let index = indexSet.first else {return}
+        let taskForDeleting = fetchedEntities[index]
+        conteiner.viewContext.delete(taskForDeleting)
+        saveChanges()
+    }
 }

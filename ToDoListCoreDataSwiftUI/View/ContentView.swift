@@ -15,18 +15,18 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Button("Add the task") {
-                   
-                    // saving new entity
-                    viewModel.addNewTask(text: "newTask", tag: "red")
-                   
+                NavigationLink(destination: TaskView(passedTask: nil)) {
+    
+                    Text("Add the task")
+                    .frame(minWidth: 150, maxWidth: 60)
+                    .background(Color.accentColor)
+                    .foregroundColor(.white)
+                    .cornerRadius(30)
+                    // shadow for 3D-effect
+                    .shadow(color: .black.opacity(0.3), radius: 3, x: 3, y: 3)
+                    .padding(.leading, 200)
                 }
-                .frame(minWidth: 150, maxWidth: 60)
-                .background(Color.gray.opacity(0.3).cornerRadius(10))
-                .foregroundColor(.black.opacity(0.7))
-                .shadow(radius: 10)
-                .padding(.leading, 200)
-               
+
                 List {
                     ForEach(viewModel.fetchedEntities) { entity in
                         NavigationLink(destination: TaskView( passedTask: entity)) {
@@ -35,10 +35,10 @@ struct ContentView: View {
                         }
                        
                         }
+                    .onDelete(perform: viewModel.deleteTask)
                     
                 }
                 .onAppear(perform: viewModel.fetchTaskEntities)
-                
                 .listStyle(.plain)
                 
                 Spacer()
