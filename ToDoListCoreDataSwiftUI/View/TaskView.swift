@@ -51,12 +51,11 @@ struct TaskView: View {
             print("Trying to save NEW task")
             viewModel.saveChanges()
             viewModel.fetchTaskEntities()
-            print("CHANGED TASK: text: \(newTask.textOfTask ?? "no tesk text"), color: \(newTask.colorTag ?? "no color Tag ")")
+            print("NEW TASK: text: \(newTask.textOfTask ?? "no tesk text"), color: \(newTask.colorTag ?? "no color Tag ")")
         }
       
     }
   
-    
     var body: some View {
         NavigationView {
             VStack{
@@ -69,48 +68,32 @@ struct TaskView: View {
                     .padding()
                 
                 HStack{
-                    Button("A") {
-                        //action for changing colorTag to Black
-                        // change foreground color into a TextEditor
+                    
+                    // button for changing colorTag to black
+                    ButtonForChangingColor(buttonColor: "black") {
                        textColorVasChanged = "black"
                         taskColor = "black"
                     }
-                    .frame(width: 40, height: 30)
-                    .background(Color.gray.opacity(0.3))
-                    .foregroundColor(.black)
-                    .cornerRadius(10)
                     
-                    Button("A") {
-                        //action for changing colorTag to Red
-                        textColorVasChanged = "red"
+                    // button for changing colorTag to red
+                    ButtonForChangingColor(buttonColor: "red") {
+                       textColorVasChanged = "red"
                         taskColor = "red"
                     }
-                    .frame(width: 40, height: 30)
-                    .background(Color.gray.opacity(0.3))
-                    .foregroundColor(.red)
-                    .cornerRadius(10)
-        
-                    Button("A") {
-                        //action for changing colorTag to Green
-                        textColorVasChanged = "green"
+                    
+                    // button for changing colorTag to green
+                    ButtonForChangingColor(buttonColor: "green") {
+                       textColorVasChanged = "green"
                         taskColor = "green"
                     }
-                    .frame(width: 40, height: 30)
-                    .background(Color.gray.opacity(0.3))
-                    .foregroundColor(.green)
-                    .cornerRadius(10)
-                
-                    Button("A") {
-                        //action for changing colorTag to Blue
-                        textColorVasChanged = "blue"
+
+                    // button for changing colorTag to blue
+                    ButtonForChangingColor(buttonColor: "blue") {
+                       textColorVasChanged = "blue"
                         taskColor = "blue"
                     }
-                    .frame(width: 40, height: 30)
-                    .background(Color.gray.opacity(0.3))
-                    .foregroundColor(.blue)
-                    .cornerRadius(10)
                   
-               // button for saving task
+                    // button for saving task
                     Button("Save") {
                        saveTask()
                     }
